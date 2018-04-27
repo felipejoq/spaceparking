@@ -55,7 +55,6 @@ $factory->define(Plaza::class, function (Faker $faker) {
         'numero_plaza' => $faker->numerify('###'),
         'descripcion' => $faker->paragraph(1),
         'tipo_id' => $faker->numberBetween(1,2),
-        'nodemcu_id' => 1,
     );
 });
 

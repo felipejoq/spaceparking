@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Ocupacion;
 
+use App\Disponibilidad;
 use App\Ocupacion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,11 +16,10 @@ class OcupacionController extends Controller
      */
     public function index()
     {
-        //$ocupaciones = Ocupacion::all();
+        //$ocupaciones = Ocupacion::with(['plaza','nodemcu'])->get();
 
-        //return response()->json($ocupaciones,200);
+        //return response()->json(['data' => $ocupaciones],200);
 
-        return "Hola spackeparking!";
     }
 
     /**
@@ -42,61 +42,67 @@ class OcupacionController extends Controller
     {
         $ocupacion = new Ocupacion();
         if($request->ocupada === "true"){
+
+            $this->descontarDisponibilidad($request);
+
+            //Asignamos ocupación.
             $ocupacion->ocupada = 1;
+
         }else{
+
+            $this->agregarDisponibilidad($request);
+
+            //Asignamos ocupación.
             $ocupacion->ocupada = 0;
         }
 
         $ocupacion->plaza_id = $request->plaza_id;
         $ocupacion->nodemcu_id = $request->nodemcu_id;
 
+
+
         $ocupacion->save();
 
-        return response()->json($ocupacion,200);
+        return response()->json(['data' => $ocupacion],200);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function show($id)
-    {
-        //
+    public function descontarDisponibilidad(Request $request){
+
+        //Rescatamos la última disponibilidad registrada.
+        $ultimaDisponibilidad = Disponibilidad::latest()->first();
+        //Obtenemos plazas libres y le restamos una.
+        $plazasLibres = $ultimaDisponibilidad->plazas_libres - 1;
+        //Obtenemos plazas ocupadas y le sumamos una.
+        $plazasOcupadas = $ultimaDisponibilidad->plazas_ocupadas + 1;
+
+        //Generamos la nueva disponibilidad.
+        $ultimaDisponibilidad->plazas_libres = $plazasLibres;
+        $ultimaDisponibilidad->plazas_ocupadas = $plazasOcupadas;
+        $ultimaDisponibilidad->plaza_id = $request->plaza_id;
+        //Guardamos la nueva disponibilidad.
+        $ultimaDisponibilidad->save();
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function edit($id)
-    {
-        //
-    }
+    public function agregarDisponibilidad(Request $request){
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        //Rescatamos la última disponibilidad registrada.
+        $ultimaDisponibilidad = Disponibilidad::latest()->first();
+        //Obtenemos plazas libres y le sumamos una.
+        $plazasLibres = $ultimaDisponibilidad->plazas_libres + 1;
+        //Obtenemos plazas ocupadas y le restamos una.
+        $plazasOcupadas = $ultimaDisponibilidad->plazas_ocupadas - 1;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        //Generamos la nueva disponibilidad.
+        $ultimaDisponibilidad->plazas_libres = $plazasLibres;
+        $ultimaDisponibilidad->plazas_ocupadas = $plazasOcupadas;
+        $ultimaDisponibilidad->plaza_id = $request->plaza_id;
+        //Guardamos la nueva disponibilidad.
+        $ultimaDisponibilidad->save();
     }
 }
