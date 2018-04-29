@@ -1,5 +1,6 @@
 <?php
 
+use App\Disponibilidad;
 use App\Estacionamiento;
 use App\Nodemcu;
 use App\Plaza;
@@ -29,7 +30,7 @@ $factory->define(Estacionamiento::class, function (Faker $faker) {
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => 'example@example.com',
         'password' => bcrypt("123123"), // secret
         'admin' => 1,
         'estacionamiento_id' => 1,
@@ -40,7 +41,7 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->define(Tipo::class, function (Faker $faker) {
     return array(
         'nombre' => $faker->name,
-        'descripcion' => $faker->paragraph(3),
+        'descripcion' => $faker->paragraph(1),
     );
 });
 
@@ -58,4 +59,12 @@ $factory->define(Plaza::class, function (Faker $faker) {
     );
 });
 
+$factory->define(Disponibilidad::class, function (Faker $faker) {
+    return array(
+        'total_plazas' => Plaza::count(),
+        'plazas_libres' => Plaza::count(),
+        'plazas_ocupadas' => 0,
+        'plaza_id' => $faker->numberBetween(1, Plaza::count()),
+    );
+});
 

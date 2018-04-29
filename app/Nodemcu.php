@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nodemcu extends Model
 {
+
+    protected $fillable = [
+         'nodemcu_clave',
+        ];
+
     public function ocupaciones(){
         return $this->hasMany(Ocupacion::class);
     }

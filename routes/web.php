@@ -11,10 +11,35 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
+//Rutas para las vistas públicas
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
 
-Auth::routes();
+Route::get('nosotros', 'NosotrosController@index')->name('nosotros');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+// Authentication Routes...
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+$this->post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+$this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
+Route::get('/administracion', 'HomeController@index')->name('administracion');
+
+//Rutas Para la vista plazas
+Route::resource('nodemcu', 'Nodemcu\NodemcuController',['except' => ['create','edit']])->middleware('auth');
+Route::resource('plazas', 'Plaza\PlazaController',['except' => ['create','edit']])->middleware('auth');
+
+
