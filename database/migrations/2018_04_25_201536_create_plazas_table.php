@@ -15,12 +15,15 @@ class CreatePlazasTable extends Migration
     {
         Schema::create('plazas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('numero_plaza')->unique();
+            $table->string('numero_plaza');
             $table->string('descripcion');
+            $table->string('estado_inicial');
             $table->integer('tipo_id')->unsigned();
+            $table->integer('nodemcu_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('tipo_id')->references('id')->on('tipos');
+            $table->foreign('nodemcu_id')->references('id')->on('nodemcus');
 
         });
     }

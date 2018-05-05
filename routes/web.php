@@ -41,5 +41,5 @@ Route::get('/administracion', 'HomeController@index')->name('administracion');
 //Rutas Para la vista plazas
 Route::resource('nodemcu', 'Nodemcu\NodemcuController',['except' => ['create','edit']])->middleware('auth');
 Route::resource('plazas', 'Plaza\PlazaController',['except' => ['create','edit']])->middleware('auth');
-
+//Route::get('listaplazas', 'Plaza\PlazaController@getPlazas')->middleware('auth');
 

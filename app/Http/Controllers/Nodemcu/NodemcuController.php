@@ -30,7 +30,10 @@ class NodemcuController extends Controller
 
         $nodemcu = Nodemcu::create($nodemcu);
 
-        return view('admin.plaza')->with(['nodemcu' => $nodemcu]);
+        $listadenodemcu = Nodemcu::all();
+
+        return redirect()->route('plazas.index',compact('nodemcu','listadenodemcu'))
+            ->with('flash','¡Nodemcu creado!');
 
     }
 

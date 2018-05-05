@@ -14,4 +14,8 @@ class Nodemcu extends Model
     public function ocupaciones(){
         return $this->hasMany(Ocupacion::class);
     }
+
+    public function plazas(){
+        return $this->hasMany(Plaza::class);
+    }
 }

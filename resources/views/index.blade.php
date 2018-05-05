@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
 
     <div class="flex-center position-ref full-height">
@@ -21,5 +25,9 @@
 @endsection
 
 @push('scripts')
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 @endpush

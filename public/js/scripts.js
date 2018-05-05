@@ -14,5 +14,6 @@ $(document).ready(function() {
         });
     };
     setInterval(call, 1000);
+
 });
 
