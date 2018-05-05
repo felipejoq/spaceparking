@@ -114,21 +114,21 @@ class PlazaController extends Controller
             'descripcion' => 'required',
             'nodemcu_id' => 'required',
             'tipo_id' => 'required',
-            'estado_inicial' => 'required'
+            'estado_inicial' => 'required',
         ];
 
         $this->validate($request,$rules);
 
-        $plaza->numero_plaza = $request->enumero_plaza;
-        $plaza->descripcion = $request->edescripcion;
-        $plaza->nodemcu_id = $request->enodemcu_id;
-        $plaza->tipo_id = $request->etipo_id;
-        $plaza->estado_inicial = $request->eestado_inicial;
+        $plaza->numero_plaza = $request->input('numero_plaza');
+        $plaza->descripcion = $request->input('descripcion');
+        $plaza->nodemcu_id = $request->input('nodemcu_id');
+        $plaza->tipo_id = $request->input('tipo_id');
+        $plaza->estado_inicial = $request->input('estado_inicial');
 
         $plaza->save();
 
-
-        return response()->json($plaza,200);
+        return redirect()->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
+        ->with('flash','¡La plaza fue editada!');
     }
 
     /**
@@ -140,12 +140,6 @@ class PlazaController extends Controller
     public function destroy(Plaza $plaza)
     {
         //
-    }
-
-    public function getPlazas(){
-        $plazas = Plaza::orderBy('created_at','desc')->with('tipo','nodemcu')->get();
-
-        return response()->json($plazas,200);
     }
 
     public function addDisponibilidad(Request $request){

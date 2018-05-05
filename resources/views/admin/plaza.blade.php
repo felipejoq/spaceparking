@@ -47,16 +47,19 @@
                                             <th>Número</th>
                                             <th>Descripcion</th>
                                             <th>Tipo</th>
+                                            <th>Estado Inicial</th>
                                             <th>Accion</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($listadeplazas as $unaplaza)
+
                                             <tr>
                                                 <td>{{ $unaplaza->id }}</td>
                                                 <td>{{ $unaplaza->numero_plaza }}</td>
                                                 <td>{{ $unaplaza->descripcion }}</td>
                                                 <td>{{ $unaplaza->tipo->nombre }}</td>
+                                                <td>{{ $unaplaza->estado_inicial }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button" id="verp-{{ $unaplaza->id }}" class="btn btn-sm" data-toggle="modal" data-target="#verplaza">
@@ -92,12 +95,14 @@
                                                                         console.log('hubo un error');
                                                                     },
                                                                     success: function (data) {
-                                                                        $('#eplaza_id').val(data.id);
-                                                                        $('#enumero_plaza').val(data.numero_plaza);
-                                                                        $('#edescripcion').val(data.descripcion);
-                                                                        $('select[id=enodemcu_id]').val(data.nodemcu.id);
-                                                                        $('select[id=etipo_id]').val(data.tipo.id);
-                                                                        $('select[id=eestado_inicial]').val(data.estado_inicial);
+                                                                        $('#plaza_id').val(data.id);
+                                                                        $('#numero_plaza').val(data.numero_plaza);
+                                                                        $('#descripcion').val(data.descripcion);
+                                                                        $('select[id=nodemcu_id]').val(data.nodemcu.id);
+                                                                        $('select[id=tipo_id]').val(data.tipo.id);
+                                                                        $('select[id=estado_inicial]').val(data.estado_inicial);
+
+                                                                        $('#formedita').attr('action', 'plazas/'+data.id);
                                                                     }
                                                                 });
                                                             });
@@ -141,69 +146,16 @@
     <script src="../js/midatatable.js"></script>
     <script>
         $(document).ready( function () {
-            @if(!empty($errors->first()))
+
+            @if(request()->nodemcu)
                 window.location.hash = '#create';
             @endif
-
-            if(window.location.hash === '#create'){
-                window.location.hash = '#';
-            }
-
-            @if(!empty($errors->first('enodemcu_id')))
-                window.location.hash = '#edita';
+            @if(!empty($errors->first()))
+                window.location.hash = '#erroradd';
             @endif
-
-
-            $('#btneditarplaza').click(function (event) {
-
-                var metodo = $('input[name=_method]').val();
-                var token = $('input[name=_token]').val();
-                var plaza_id = $('#eplaza_id').val();
-                var nodemcu = $('#enodemcu_id').val();
-                var numeroplaza = $('#enumero_plaza').val();
-                var descripcion = $('#edescripcion').val();
-                var tipoplaza = $('#etipo_id').val();
-                var estadoinicial = $('#eestado_inicial').val();
-
-                var obj ={
-                    _method: metodo,
-                    _token: token,
-                    id: plaza_id,
-                    descripcion: descripcion,
-                    numero_plaza: numeroplaza,
-                    estado_inicial: estadoinicial,
-                    tipo_id: {
-                        id: tipoplaza
-                    },
-                    nodemcu_id: {
-                        id: nodemcu
-                    }
-                };
-
-                console.log(obj);
-
-                $.ajax("plazas/"+plaza_id, {
-                    type: "PUT",
-                    data: JSON.stringify(obj),
-                    //url: "plazas/"+plazaid,
-                    contentType: "application/json",
-                    success: function(data) {
-                        window.location.hash = '';
-                        $('#editarplaza').modal('hide');
-
-                    },
-                    error: function(xhr,estado,error) {
-                        var mensaje = xhr.responseJSON;
-                        window.location.hash = '#erroredita';
-
-                        $.each(mensaje,function(indice,valor){
-                            console.log(indice + ' - ' + valor);
-                        });
-                    }
-                });
-
-            });
-
+            if(window.location.hash === '#erroradd'){
+                $('#agregarplaza').modal('show');
+            }
         });
     </script>
 

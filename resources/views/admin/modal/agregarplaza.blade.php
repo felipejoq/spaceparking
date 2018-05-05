@@ -17,7 +17,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nodemcu_id">Seleccione un Nodemcu</label>
-                                    <select class="form-control" id="nodemcu_id" name="nodemcu_id" required >
+                                    @if(!empty($errors))
+                                        @foreach($errors as $error)
+                                            {{ $error }}
+                                        @endforeach
+                                    @endif
+                                    <select class="form-control" id="nodemcu_id" name="nodemcu_id" required>
                                         <option value="" id="0">
                                             Seleccione un nodemcu...
                                         </option>
@@ -107,22 +112,5 @@
 
 @push('scripts')
 
-    @if(request()->nodemcu)
-        <script>
-            $(document).ready( function () {
-                window.location.hash = '#create';
-            });
-        </script>
-    @endif
-
-    @if(!empty($errors->any()))
-
-        <script>
-            $(document).ready( function () {
-                window.location.hash = '#create';
-            });
-        </script>
-
-    @endif
 
 @endpush

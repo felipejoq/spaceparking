@@ -102,22 +102,6 @@
 
 @push('scripts')
 
-    @if(request()->nodemcu)
-        <script>
-            $(document).ready( function () {
-                window.location.hash = '#create';
-            });
-        </script>
-    @endif
 
-    @if(!empty($errors->first()))
-
-        <script>
-            $(document).ready( function () {
-                window.location.hash = '#create';
-            });
-        </script>
-
-    @endif
 
 @endpush
