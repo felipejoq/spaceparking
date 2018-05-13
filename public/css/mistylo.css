@@ -1,3 +1,12 @@
 footer{
     text-align: center;
 }
+
+.tiny{
+    font-size: 1px;
+}
+
+#avisoplaza{
+    background-color: #1c7430;
+    color: #ffffff;
+}

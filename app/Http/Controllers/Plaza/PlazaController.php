@@ -27,16 +27,6 @@ class PlazaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,7 +45,6 @@ class PlazaController extends Controller
         $this->validate($request,$rules);
 
         $plazacreada = new Plaza();
-
         $plazacreada->nodemcu_id = $request->nodemcu_id;
         $plazacreada->numero_plaza = $request->numero_plaza;
         $plazacreada->estado_inicial = $request->estado_inicial;
@@ -64,14 +53,15 @@ class PlazaController extends Controller
 
         $plazacreada->save();
 
-        $this->addDisponibilidad($request);
+        Disponibilidad::latest()->first()->agregaPlazaDisponibilidad($plazacreada);
 
         $listadenodemcu = Nodemcu::all();
         $listadeplazas = Plaza::all();
         $listadetipos = Tipo::all();
 
-        return redirect()->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
-            ->with('flash','¡La plaza fue agregada!');
+        return redirect()
+            ->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
+            ->with('flash','¡La plaza fue creada!');
     }
 
     /**
@@ -119,6 +109,8 @@ class PlazaController extends Controller
 
         $this->validate($request,$rules);
 
+        Disponibilidad::latest()->first()->actualizaPlazaDisponibilidad($request, $plaza);
+
         $plaza->numero_plaza = $request->input('numero_plaza');
         $plaza->descripcion = $request->input('descripcion');
         $plaza->nodemcu_id = $request->input('nodemcu_id');
@@ -127,8 +119,12 @@ class PlazaController extends Controller
 
         $plaza->save();
 
+        $listadenodemcu = Nodemcu::all();
+        $listadeplazas = Plaza::all();
+        $listadetipos = Tipo::all();
+
         return redirect()->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
-        ->with('flash','¡La plaza fue editada!');
+        ->with('flash2','¡La plaza fue editada!');
     }
 
     /**
@@ -139,31 +135,16 @@ class PlazaController extends Controller
      */
     public function destroy(Plaza $plaza)
     {
-        //
+        Disponibilidad::latest()->first()->eliminaPlazaDisponibilidad($plaza);
+        
+        $plaza = $plaza->delete();
+
+        $listadenodemcu = Nodemcu::all();
+        $listadeplazas = Plaza::all();
+        $listadetipos = Tipo::all();
+
+        return redirect()->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
+            ->with('flash3','¡La plaza fue eliminada!');
     }
 
-    public function addDisponibilidad(Request $request){
-        $disponibilidad = Disponibilidad::first();
-        $disponibilidad->total_plazas = $disponibilidad->total_plazas + 1;
-        if ($request->estado_inicial == "Disponible"){
-            $disponibilidad->plazas_libres = $disponibilidad->plazas_libres + 1;
-        }
-
-        $disponibilidad->save();
-    }
-
-    public function updateDisponibilidad(Request $request){
-        $disponibilidad = Disponibilidad::first();
-
-        $disponibilidad->plaza_id = $request->plaza_id;
-
-        if ($request->estado_inicial == "No disponible"){
-            $disponibilidad->plazas_libres = $disponibilidad->plazas_libres - 1;
-        }elseif($request->estado_inicial == "Disponible"){
-            $disponibilidad->plazas_libres = $disponibilidad->plazas_libres + 1;
-        }
-
-        $disponibilidad->save();
-
-    }
 }

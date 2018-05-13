@@ -21,7 +21,7 @@ class CreateDisponibilidadsTable extends Migration
             $table->integer('plaza_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('plaza_id')->references('id')->on('plazas');
+            $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
 
         });
     }

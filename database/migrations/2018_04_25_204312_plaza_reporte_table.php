@@ -17,8 +17,8 @@ class PlazaReporteTable extends Migration
             $table->integer('plaza_id')->unsigned();
             $table->integer('reporte_id')->unsigned();
 
-            $table->foreign('plaza_id')->references('id')->on('plazas');
-            $table->foreign('reporte_id')->references('id')->on('reportes');
+            $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
+            $table->foreign('reporte_id')->references('id')->on('reportes')->onDelete('cascade');
 
         });
     }

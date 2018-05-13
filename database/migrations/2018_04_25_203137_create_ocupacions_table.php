@@ -20,8 +20,8 @@ class CreateOcupacionsTable extends Migration
             $table->integer('nodemcu_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('plaza_id')->references('id')->on('plazas');
-            $table->foreign('nodemcu_id')->references('id')->on('nodemcus');
+            $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
+            $table->foreign('nodemcu_id')->references('id')->on('nodemcus')->onDelete('cascade');
 
         });
     }

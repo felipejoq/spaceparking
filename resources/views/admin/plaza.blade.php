@@ -20,6 +20,18 @@
                                     {{ session('flash') }}
                                 </div>
                             @endif
+                            @if(session()->has('flash2'))
+                                <div class="alert alert-warning">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{ session('flash2') }}
+                                </div>
+                            @endif
+                            @if(session()->has('flash3'))
+                                <div class="alert alert-danger">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{ session('flash3') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card">
@@ -31,8 +43,12 @@
                                     <div class="col-md-6">
                                         <form class="text-left" method="POST" action="{{route('nodemcu.store')}}">
                                             {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-sm btn-primary">¿Nuevo Nodemcu?</button>
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="material-icons tiny" style="vertical-align: middle;">settings_applications</i>
+                                                ¿Nuevo Nodemcu?
+                                            </button>
                                             <button id="agregarp" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarplaza">
+                                                <i class="material-icons tiny" style="vertical-align: middle;">add_box</i>
                                                 Agregar Plaza
                                             </button>
                                         </form>
@@ -45,10 +61,10 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Número</th>
-                                            <th>Descripcion</th>
+                                            <th>Descripción</th>
                                             <th>Tipo</th>
                                             <th>Estado Inicial</th>
-                                            <th>Accion</th>
+                                            <th>Acción</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -109,9 +125,32 @@
 
                                                         </script>
 
-                                                        <button type="button" class="btn btn-sm">
+                                                        <button id="eliminar-{!! $unaplaza->id !!}" type="button" class="btn btn-sm" data-toggle="modal" data-target="#eliminarplaza">
                                                             <i class="material-icons tiny">delete</i>
                                                         </button>
+
+                                                        <script>
+                                                            $('table').on('click', "#eliminar-{!! $unaplaza->id !!}", function() {
+                                                                $.ajax({
+                                                                    url: "{{route('plazas.show',compact('unaplaza'))}}",
+                                                                    error: function () {
+                                                                        console.log('hubo un error');
+                                                                    },
+                                                                    success: function (data) {
+                                                                        $('#txtnumeroplazae').val(data.numero_plaza);
+                                                                        $('#txtdescripcionplazae').val(data.descripcion);
+                                                                        $('select[name=verplazanodemcu]').val(data.nodemcu.id);
+                                                                        $('select[name=verplazatipo]').val(data.tipo.id);
+                                                                        $('select[name=verplazaestado]').val(data.estado_inicial);
+
+                                                                        $('#formeliminarplaza').attr('action', 'plazas/'+data.id);
+                                                                    }
+                                                                });
+                                                            });
+
+                                                        </script>
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -134,6 +173,7 @@
     @include('admin.modal.agregarplaza')
     @include('admin.modal.verplaza')
     @include('admin.modal.editarplaza')
+    @include('admin.modal.eliminarplaza')
 
 @endsection
 
@@ -150,7 +190,7 @@
             @if(request()->nodemcu)
                 window.location.hash = '#create';
             @endif
-            @if(!empty($errors->first()))
+                    @if(!empty($errors->first()))
                 window.location.hash = '#erroradd';
             @endif
             if(window.location.hash === '#erroradd'){

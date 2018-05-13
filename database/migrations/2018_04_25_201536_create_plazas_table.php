@@ -22,8 +22,8 @@ class CreatePlazasTable extends Migration
             $table->integer('nodemcu_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('tipo_id')->references('id')->on('tipos');
-            $table->foreign('nodemcu_id')->references('id')->on('nodemcus');
+            $table->foreign('tipo_id')->references('id')->on('tipos')->onDelete('cascade');
+            $table->foreign('nodemcu_id')->references('id')->on('nodemcus')->onDelete('cascade');
 
         });
     }
