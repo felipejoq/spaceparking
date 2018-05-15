@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
         factory(Estacionamiento::class, 1)->create();
         factory(Nodemcu::class, 1)->create();
         factory(Tipo::class, 3)->create();
-        factory(Plaza::class, 2)->create();
+        factory(Plaza::class, 20)->create();
         factory(\App\Disponibilidad::class,1)->create();
     }
 }

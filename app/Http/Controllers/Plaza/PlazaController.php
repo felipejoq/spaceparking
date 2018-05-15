@@ -136,7 +136,7 @@ class PlazaController extends Controller
     public function destroy(Plaza $plaza)
     {
         Disponibilidad::latest()->first()->eliminaPlazaDisponibilidad($plaza);
-        
+
         $plaza = $plaza->delete();
 
         $listadenodemcu = Nodemcu::all();
