@@ -51,6 +51,7 @@ $factory->define(Nodemcu::class, function (Faker $faker) {
     );
 });
 
+
 $factory->define(Plaza::class, function (Faker $faker) {
     return array(
         'numero_plaza' => $faker->numerify('###'),
