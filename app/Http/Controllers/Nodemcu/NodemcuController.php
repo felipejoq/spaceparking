@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Nodemcu;
 
 use App\Nodemcu;
+use App\Plaza;
+use App\Tipo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +17,7 @@ class NodemcuController extends Controller
      */
     public function index()
     {
+
         return view('admin.plaza');
     }
 
@@ -33,7 +36,7 @@ class NodemcuController extends Controller
         $listadenodemcu = Nodemcu::all();
 
         return redirect()->route('plazas.index',compact('nodemcu','listadenodemcu'))
-            ->with('flash','¡Nodemcu creado!');
+            ->with('flash5','¡Nodemcu creado!');
 
     }
 
@@ -79,6 +82,16 @@ class NodemcuController extends Controller
      */
     public function destroy(Nodemcu $nodemcu)
     {
-        //
+        if ($nodemcu->id != 1){
+            $nodemcu = $nodemcu->delete();
+
+            $listadenodemcu = Nodemcu::all();
+
+            return redirect()->route('plazas.index',compact(['nodemcu','listadenodemcu']))
+                ->with('flash4','¡Nodemcu eliminado!');
+        }else{
+            return redirect()->route('plazas.index',compact(['nodemcu','listadenodemcu']))
+                ->with('flash4','¡No se permite eliminar!');
+        }
     }
 }

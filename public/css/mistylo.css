@@ -6,7 +6,17 @@ footer{
     font-size: 1px;
 }
 
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+    color: #004085;
+}
+
 #avisoplaza{
     background-color: #1c7430;
     color: #ffffff;
+}
+
+.iconos{
+    vertical-align: middle;
 }

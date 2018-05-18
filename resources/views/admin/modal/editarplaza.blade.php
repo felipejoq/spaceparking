@@ -46,7 +46,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="descripcion">Descripción de la plaza</label>
-                                    <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción de la plaza. Ejem. Plaza del genrente..." required>{{ old('edescripcion') }}</textarea>
+                                    <textarea minlength="10" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción de la plaza. Ejem. Plaza del genrente..." required>{{ old('edescripcion') }}</textarea>
                                     {!! $errors->first('edescripcion', '<span class="help-block text-danger">:message</span>') !!}
                                 </div>
                             </div>

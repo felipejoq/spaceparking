@@ -19,6 +19,7 @@ class CreateEstacionamientosTable extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->timestamps();
+
         });
     }
 

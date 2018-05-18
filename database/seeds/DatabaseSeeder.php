@@ -39,7 +39,16 @@ class DatabaseSeeder extends Seeder
 
         factory(User::class, 1)->create();
         factory(Estacionamiento::class, 1)->create();
-        factory(Nodemcu::class, 1)->create();
+        //factory(Nodemcu::class, 2)->create();
+
+        $node1 = new Nodemcu();
+        $node1->nodemcu_clave = "AAAA";
+        $node1->save();
+
+        $node2 = new Nodemcu();
+        $node2->nodemcu_clave = "BBBB";
+        $node2->save();
+
         factory(Tipo::class, 3)->create();
         factory(Plaza::class, 20)->create();
         factory(\App\Disponibilidad::class,1)->create();

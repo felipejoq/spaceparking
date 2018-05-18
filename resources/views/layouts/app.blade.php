@@ -68,7 +68,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a href="{{'administracion'}}" class="dropdown-item">Panel administración</a>
+                                    <a href="{{route('admin')}}" class="dropdown-item">Panel administración</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

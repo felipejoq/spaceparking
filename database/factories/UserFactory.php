@@ -21,16 +21,16 @@ use Faker\Generator as Faker;
 
 $factory->define(Estacionamiento::class, function (Faker $faker) {
     return array(
-        'nombre' => $faker->name,
-        'direccion' => $faker->paragraph(3),
-        'telefono' => $faker->phoneNumber,
+        'nombre' => 'Estacionamiento Público',
+        'direccion' => '18 de Septiembre, #575. Chillán.',
+        'telefono' => '(+56) 42 2 334 4554',
     );
 });
 
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'email' => 'example@example.com',
+        'email' => 'admin@admin.com',
         'password' => bcrypt("123123"), // secret
         'admin' => 1,
         'estacionamiento_id' => 1,
@@ -40,21 +40,21 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(Tipo::class, function (Faker $faker) {
     return array(
-        'nombre' => $faker->name,
+        'nombre' => $faker->sentence(1),
         'descripcion' => $faker->paragraph(1),
     );
 });
 
 $factory->define(Nodemcu::class, function (Faker $faker) {
     return array(
-        'nodemcu_clave' => 'AAAA',
+        'nodemcu_clave' => $faker->unique()->randomElement(['AAAA', 'BBBB']),
     );
 });
 
 $factory->define(Plaza::class, function (Faker $faker) {
     return array(
         'numero_plaza' => $faker->numerify('###'),
-        'descripcion' => $faker->paragraph(1),
+        'descripcion' => $faker->sentence(3),
         'estado_inicial' => 'Disponible',
         'tipo_id' => 2,
         'nodemcu_id' => 1,

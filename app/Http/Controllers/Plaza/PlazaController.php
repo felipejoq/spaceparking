@@ -100,11 +100,11 @@ class PlazaController extends Controller
     public function update(Request $request, Plaza $plaza)
     {
         $rules = [
+            'nodemcu_id' => 'min:1|numeric|required',
             'numero_plaza' => 'required',
             'descripcion' => 'required',
-            'nodemcu_id' => 'required',
-            'tipo_id' => 'required',
-            'estado_inicial' => 'required',
+            'estado_inicial' => 'min:1|required',
+            'tipo_id' => 'required|min:1|numeric'
         ];
 
         $this->validate($request,$rules);

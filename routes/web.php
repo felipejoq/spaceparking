@@ -36,10 +36,18 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/administracion', 'HomeController@index')->name('administracion');
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
 
-//Rutas Para la vista plazas
-Route::resource('nodemcu', 'Nodemcu\NodemcuController',['except' => ['create','edit']])->middleware('auth');
-Route::resource('plazas', 'Plaza\PlazaController',['except' => ['create','edit']])->middleware('auth');
-//Route::get('listaplazas', 'Plaza\PlazaController@getPlazas')->middleware('auth');
+    Route::get('/', 'HomeController@index')->name('admin');
 
+    //Rutas Para la vista plazas
+    Route::resource('nodemcu', 'Nodemcu\NodemcuController',['except' => ['create','edit']]);
+    Route::resource('plazas', 'Plaza\PlazaController',['except' => ['create','edit']]);
+
+     //Recurso para los tipos de plazas
+    Route::resource('tipos','Tipo\TipoPlazaController');
+
+    //Recurso para estacionamiento
+    Route::resource('estacionamiento','Estacionamiento\EstacionamientoController');
+
+});

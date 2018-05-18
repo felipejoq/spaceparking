@@ -18,12 +18,12 @@ class CreatePlazasTable extends Migration
             $table->string('numero_plaza');
             $table->string('descripcion');
             $table->string('estado_inicial');
-            $table->integer('tipo_id')->unsigned();
-            $table->integer('nodemcu_id')->unsigned();
+            $table->integer('tipo_id')->unsigned()->nullable();
+            $table->integer('nodemcu_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('tipo_id')->references('id')->on('tipos')->onDelete('cascade');
-            $table->foreign('nodemcu_id')->references('id')->on('nodemcus')->onDelete('cascade');
+            $table->foreign('tipo_id')->references('id')->on('tipos')->onDelete('set null');
+            $table->foreign('nodemcu_id')->references('id')->on('nodemcus')->onDelete('set null');
 
         });
     }

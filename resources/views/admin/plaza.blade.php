@@ -5,15 +5,14 @@
         <div class="row justify-content-center">
 
             <div class="col-md-3">
-                <div class="card">
-                    @include('admin.menu.menu')
-                </div>
+                @include('admin.menu.menu')
             </div>
 
             <div class="col-md-9">
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
+
                             @if(session()->has('flash'))
                                 <div class="alert alert-success">
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -36,17 +35,24 @@
                     </div>
                     <div class="card">
                         <div class="card-header">Administración de plazas</div>
-                        <div class="row">
+
                             <div class="col-md-12">
+                                <div class="row">
                                 <div class="col-md-12 text-right">
                                     <p class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <form class="text-left" method="POST" action="{{route('nodemcu.store')}}">
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="material-icons tiny" style="vertical-align: middle;">settings_applications</i>
-                                                ¿Nuevo Nodemcu?
+                                                <i class="material-icons iconos">add</i>
+                                                Agregar un Nodemcu
                                             </button>
+
+                                            <button id="btadminnodemcu" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#adminnodemcu">
+                                                <i class="material-icons iconos">settings_applications</i>
+                                                Admin Nodemcu
+                                            </button>
+
                                             <button id="agregarp" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarplaza">
                                                 <i class="material-icons tiny" style="vertical-align: middle;">add_box</i>
                                                 Agregar Plaza
@@ -174,6 +180,7 @@
     @include('admin.modal.verplaza')
     @include('admin.modal.editarplaza')
     @include('admin.modal.eliminarplaza')
+    @include('admin.modal.adminnodemcu',['nodemculista' => $listadenodemcu])
 
 @endsection
 
@@ -188,14 +195,28 @@
         $(document).ready( function () {
 
             @if(request()->nodemcu)
-                window.location.hash = '#create';
+                window.location.hash = '#addnodemcu';
             @endif
                     @if(!empty($errors->first()))
                 window.location.hash = '#erroradd';
             @endif
-            if(window.location.hash === '#erroradd'){
+
+            if(window.location.hash === '#erroradd' ||  window.location.hash === '#create'  ){
                 $('#agregarplaza').modal('show');
             }
+
+            @if(session()->has('flash4'))
+            if(window.location.hash = '#deletenodemcu'){
+                $('#adminnodemcu').modal('show');
+            }
+            @endif
+
+                    @if(session()->has('flash5'))
+            if(window.location.hash = '#addnodemcu'){
+                $('#adminnodemcu').modal('show');
+            }
+            @endif
+
         });
     </script>
 

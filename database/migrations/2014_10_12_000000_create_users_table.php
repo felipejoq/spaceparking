@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('estacionamiento_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
+
         });
     }
 
