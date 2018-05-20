@@ -22,6 +22,12 @@
             Estacionamiento
         </a>
     </div>
+    <div class="card-header">
+        <a href="#">
+            <i class="material-icons iconos">show_chart</i>
+            Reportes
+        </a>
+    </div>
     <div class="card-header" id="accordion">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                 <i class="material-icons iconos">add</i>
