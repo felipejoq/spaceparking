@@ -36,7 +36,7 @@
 
                 <table class="table table-hover">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th scope="col">ID</th>
                         <th scope="col">Clave</th>
                         <th scope="col">Acciones</th>
@@ -47,9 +47,9 @@
 
                     @foreach($nodemculista as $node)
                         <tr>
-                            <th scope="row">{{ $node->id }}</th>
-                            <td>{{ $node->nodemcu_clave }}</td>
-                            <td>
+                            <th scope="row" class="text-center">{{ $node->id }}</th>
+                            <td class="text-center">{{ $node->nodemcu_clave }}</td>
+                            <td class="text-center">
                                 <div class="btn-group">
                                     <form action="{{ route('nodemcu.destroy',$node) }}" method="POST">
                                         {{ csrf_field() }} {{ method_field('DELETE') }}

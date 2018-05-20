@@ -30,7 +30,7 @@ $factory->define(Estacionamiento::class, function (Faker $faker) {
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'email' => 'admin@admin.com',
+        'email' => $faker->unique()->email,
         'password' => bcrypt("123123"), // secret
         'admin' => 1,
         'estacionamiento_id' => 1,
@@ -57,7 +57,7 @@ $factory->define(Plaza::class, function (Faker $faker) {
         'numero_plaza' => $faker->numerify('###'),
         'descripcion' => $faker->sentence(3),
         'estado_inicial' => 'Disponible',
-        'tipo_id' => 2,
+        'tipo_id' => 1,
         'nodemcu_id' => 1,
     );
 });

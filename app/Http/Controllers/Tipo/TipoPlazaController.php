@@ -23,16 +23,6 @@ class TipoPlazaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,7 +30,21 @@ class TipoPlazaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nombre' => 'required|min:5',
+            'descripcion' => 'required|min:10',
+        ];
+
+        $this->validate($request,$rules);
+
+        $tipo = new Tipo();
+        $tipo->nombre = $request->nombre;
+        $tipo->descripcion = $request->descripcion;
+        $tipo->save();
+
+        $tipos = Tipo::all()->load('plazas');
+
+        return view('admin.tipo', compact('tipos'));
     }
 
     /**
@@ -49,20 +53,9 @@ class TipoPlazaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tipo $tipo)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response()->json($tipo,200);
     }
 
     /**
@@ -72,9 +65,33 @@ class TipoPlazaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tipo $tipo)
     {
-        //
+        $tipos = Tipo::all()->load('plazas');
+
+        $rules = [
+            'nombre' => 'required|min:5',
+            'descripcion' => 'required|min:10',
+        ];
+
+        $this->validate($request,$rules);
+
+        foreach ($tipo->plazas as $unaplaza){
+            $plazaedita = Plaza::findOrFail($unaplaza->id);
+
+            $plazaedita->tipo_id = 1;
+
+            $plazaedita->save();
+
+        }
+
+        $tipo->nombre = $request->nombre;
+        $tipo->descripcion = $request->descripcion;
+
+        $tipo->save();
+
+        return redirect()->route('tipos.index', compact('tipos'))
+            ->with('flash','El tipo de plaza fue editado con éxito.');
     }
 
     /**
@@ -83,8 +100,20 @@ class TipoPlazaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tipo $tipo)
     {
-        //
+        $tipos = Tipo::all()->load('plazas');
+
+        if ($tipo->id != 1){
+
+            $tipo = $tipo->delete();
+
+            return redirect()->route('tipos.index', compact('tipos'))
+                ->with('flash','El tipo de plaza fue eliminado con éxito.');
+
+        }else{
+            return redirect()->route('tipos.index', compact('tipos'))
+                ->with('flash','Es el tipo de plaza por defecto, no puede ser eliminado.');
+        }
     }
 }

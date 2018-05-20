@@ -45,7 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
     Route::resource('plazas', 'Plaza\PlazaController',['except' => ['create','edit']]);
 
      //Recurso para los tipos de plazas
-    Route::resource('tipos','Tipo\TipoPlazaController');
+    Route::resource('tipos','Tipo\TipoPlazaController',['except' => ['create','edit']]);
 
     //Recurso para estacionamiento
     Route::resource('estacionamiento','Estacionamiento\EstacionamientoController');

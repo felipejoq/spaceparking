@@ -11,8 +11,23 @@
             </div>
 
             <div class="col-md-9">
+
+                <div class="col-md-12">
+                    @if(session()->has('flash'))
+                        <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session('flash') }}
+                        </div>
+                    @endif
+                </div>
+
                 <div class="card">
-                    <div class="card-header">Datos del estacionamiento:</div>
+                    <div class="card-header">
+                        <div class="" style="display: inline;">
+                            Datos del estacionamiento <div class="" style="float: right;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarestacionamiento">Editar datos</button></div>
+                        </div>
+                    </div>
+
                     <div class="card-body">
 
                         <div class="row">
@@ -38,6 +53,10 @@
 
         </div>
     </div>
+
+    @include('admin.modal.estacionamientoedit',
+    ['administradoresestacionamiento' => $administradores, 'estacionamientoedita' => $estacionamiento]
+    )
 
 @endsection
 

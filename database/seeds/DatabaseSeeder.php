@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         Reporte::flushEventListeners();
         Estacionamiento::flushEventListeners();
 
-        factory(User::class, 1)->create();
+        factory(User::class, 2)->create();
         factory(Estacionamiento::class, 1)->create();
         //factory(Nodemcu::class, 2)->create();
 
@@ -49,8 +49,22 @@ class DatabaseSeeder extends Seeder
         $node2->nodemcu_clave = "BBBB";
         $node2->save();
 
-        factory(Tipo::class, 3)->create();
-        factory(Plaza::class, 20)->create();
+        $tipo = new Tipo();
+        $tipo->nombre = "Uso General";
+        $tipo->descripcion = "Plaza de uso general.";
+        $tipo->save();
+
+        $tipo2 = new Tipo();
+        $tipo2->nombre = "Discapacitados";
+        $tipo2->descripcion = "Plaza reservada para discapacitados.";
+        $tipo2->save();
+
+        $tipo3 = new Tipo();
+        $tipo3->nombre = "Embarazadas";
+        $tipo3->descripcion = "Plaza reservada para embarazadas.";
+        $tipo3->save();
+
+        factory(Plaza::class, 2)->create();
         factory(\App\Disponibilidad::class,1)->create();
     }
 }

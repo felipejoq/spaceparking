@@ -29,7 +29,7 @@ class NodemcuController extends Controller
      */
     public function store(Request $request)
     {
-        $nodemcu['nodemcu_clave'] = str_random(10);
+        $nodemcu['nodemcu_clave'] = str_random(4);
 
         $nodemcu = Nodemcu::create($nodemcu);
 

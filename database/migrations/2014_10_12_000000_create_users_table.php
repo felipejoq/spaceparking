@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('admin');
-            $table->integer('estacionamiento_id')->unsigned();
+            $table->integer('estacionamiento_id')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
 

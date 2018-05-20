@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Estacionamiento;
 
 use App\Admin;
 use App\Estacionamiento;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,8 +19,9 @@ class EstacionamientoController extends Controller
     {
         $estacionamiento = Estacionamiento::latest()->first()->load('administradores');
 
+        $administradores = User::all();
 
-        return view('admin.estacionamiento', compact('estacionamiento'));
+        return view('admin.estacionamiento', compact(['estacionamiento', 'administradores']));
     }
 
     /**
@@ -72,9 +74,26 @@ class EstacionamientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Estacionamiento $estacionamiento)
     {
-        //
+
+        $rules = [
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'telefono' => 'required',
+        ];
+
+        $this->validate($request,$rules);
+
+        $estacionamiento->nombre = $request->nombre;
+        $estacionamiento->direccion = $request->direccion;
+        $estacionamiento->telefono = $request->telefono;
+
+        $estacionamiento->save();
+
+        return redirect()->route('estacionamiento.index')
+            ->with('flash','El estacionamiento fue editado!');
+
     }
 
     /**

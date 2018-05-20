@@ -13,7 +13,7 @@
             <div class="col-md-4 block">
                 <div class="circle">
                     <p id="informacion">
-                        <span id="plazasdisponibles">0</span>/<span id="totalplazas">0</span><br />
+                        <span id="plazasdisponibles">0</span> <small>de</small> <span id="totalplazas">0</span><br />
                         <small>Plazas</small>
                     </p>
                 </div>

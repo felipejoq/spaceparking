@@ -9,8 +9,29 @@
             </div>
 
             <div class="col-md-9">
+
+
+                @if(session()->has('flash'))
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ session('flash') }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+
                 <div class="card">
-                    <div class="card-header">Tipos de plazas</div>
+                    <div class="card-header" style="display: inline;">
+                        Tipos de plazas
+                        <div class="" style="float: right;">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregartipoplaza">
+                                Agregar un tipo
+                            </button>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -26,24 +47,76 @@
                                     </thead>
                                     <tbody>
                                     @foreach($tipos as $tipo)
-
                                         <tr>
                                             <td>{{ $tipo->id }}</td>
                                             <td>{{ $tipo->nombre }}</td>
                                             <td>{{ $tipo->descripcion }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" id="vertipo-{{ $tipo->id }}" class="btn btn-sm" data-toggle="modal" data-target="#verplaza">
+                                                    <button type="button" id="vertipo-{{ $tipo->id }}" class="btn btn-sm" data-toggle="modal" data-target="#vertipoplaza">
                                                         <i class="material-icons tiny">remove_red_eye</i>
                                                     </button>
 
-                                                    <button type="button" id="edittipo-{!! $tipo->id !!}" class="btn btn-sm" data-toggle="modal" data-target="#editarplaza">
+                                                    <script>
+                                                        $('table').on('click', "#vertipo-{!! $tipo->id !!}", function() {
+                                                            $.ajax({
+                                                                url: "{{route('tipos.show',compact('tipo'))}}",
+                                                                error: function () {
+                                                                    console.log('hubo un error');
+                                                                },
+                                                                success: function (data) {
+                                                                    console.log(data);
+                                                                    $('#txtnombretipo').val(data.nombre);
+                                                                    $('#txtdescripciontipo').val(data.descripcion);
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                    <button type="button" id="edittipo-{!! $tipo->id !!}" class="btn btn-sm" data-toggle="modal" data-target="#editartipoplaza">
                                                         <i class="material-icons tiny">edit</i>
                                                     </button>
 
-                                                    <button id="deletetipo-{!! $tipo->id !!}" type="button" class="btn btn-sm" data-toggle="modal" data-target="#eliminarplaza">
+                                                    <script>
+                                                        $('table').on('click', "#edittipo-{!! $tipo->id !!}", function() {
+                                                            $.ajax({
+                                                                url: "{{route('tipos.show',compact('tipo'))}}",
+                                                                error: function () {
+                                                                    console.log('hubo un error');
+                                                                },
+                                                                success: function (data) {
+                                                                    console.log(data);
+                                                                    $('#nombre').val(data.nombre);
+                                                                    $('#descripcion').val(data.descripcion);
+
+                                                                    $('#formeditatipo').attr('action', 'tipos/'+data.id);
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                    <button id="deletetipo-{!! $tipo->id !!}" type="button" class="btn btn-sm" data-toggle="modal" data-target="#eliminartipoplaza">
                                                         <i class="material-icons tiny">delete</i>
                                                     </button>
+
+                                                    <script>
+                                                        $('table').on('click', "#deletetipo-{!! $tipo->id !!}", function() {
+                                                            $.ajax({
+                                                                url: "{{route('tipos.show',compact('tipo'))}}",
+                                                                error: function () {
+                                                                    console.log('hubo un error');
+                                                                },
+                                                                success: function (data) {
+                                                                    console.log(data);
+                                                                    $('#txteliminanombretipo').val(data.nombre);
+                                                                    $('#txteliminadescripcion').val(data.descripcion);
+                                                                    $('#idelimina').val(data.id);
+
+                                                                    $('#formeliminatipoplaza').attr('action', 'tipos/'+data.id);
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
 
                                                 </div>
                                             </td>
@@ -60,6 +133,12 @@
 
         </div>
     </div>
+
+    @include('admin.modal.vertipoplaza')
+    @include('admin.modal.editartipoplaza')
+    @include('admin.modal.eliminartipoplaza')
+    @include('admin.modal.agregartipoplaza')
+
 @endsection
 
 @push('styles')
