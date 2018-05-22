@@ -63,3 +63,12 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+    <!-- Styles -->
+    <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/mistylo.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+@endpush

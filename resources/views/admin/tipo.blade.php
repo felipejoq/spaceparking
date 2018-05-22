@@ -134,10 +134,10 @@
         </div>
     </div>
 
-    @include('admin.modal.vertipoplaza')
-    @include('admin.modal.editartipoplaza')
-    @include('admin.modal.eliminartipoplaza')
-    @include('admin.modal.agregartipoplaza')
+    @include('admin.modal.tipos.vertipoplaza')
+    @include('admin.modal.tipos.editartipoplaza')
+    @include('admin.modal.tipos.eliminartipoplaza')
+    @include('admin.modal.tipos.agregartipoplaza')
 
 @endsection
 

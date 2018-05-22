@@ -21,7 +21,13 @@ class EstacionamientoController extends Controller
 
         $administradores = User::all();
 
-        return view('admin.estacionamiento', compact(['estacionamiento', 'administradores']));
+        $numAdmin = 0;
+
+        foreach ($administradores as $a) {
+            if ($a->admin == 1) $numAdmin = $numAdmin + 1;
+        }
+
+        return view('admin.estacionamiento', compact(['estacionamiento', 'administradores','numAdmin']));
     }
 
     /**

@@ -50,4 +50,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
     //Recurso para estacionamiento
     Route::resource('estacionamiento','Estacionamiento\EstacionamientoController');
 
+    Route::resource('usuario','Usuario\UsuarioController',['except' => ['create','edit']]);
+
 });

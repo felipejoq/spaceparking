@@ -176,11 +176,11 @@
         </div>
     </div>
 
-    @include('admin.modal.agregarplaza')
-    @include('admin.modal.verplaza')
-    @include('admin.modal.editarplaza')
-    @include('admin.modal.eliminarplaza')
-    @include('admin.modal.adminnodemcu',['nodemculista' => $listadenodemcu])
+    @include('admin.modal.plazas.agregarplaza')
+    @include('admin.modal.plazas.verplaza')
+    @include('admin.modal.plazas.editarplaza')
+    @include('admin.modal.plazas.eliminarplaza')
+    @include('admin.modal.plazas.adminnodemcu',['nodemculista' => $listadenodemcu])
 
 @endsection
 
