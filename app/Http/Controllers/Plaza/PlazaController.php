@@ -147,4 +147,12 @@ class PlazaController extends Controller
             ->with('flash3','¡La plaza fue eliminada!');
     }
 
+    public function  returnPlazas(){
+
+        $plazas = Plaza::all()->load('tipo','nodemcu');
+
+        return response()->json($plazas,200);
+
+    }
+
 }

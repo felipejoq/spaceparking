@@ -69,7 +69,7 @@
                                             <th>Número</th>
                                             <th>Descripción</th>
                                             <th>Tipo</th>
-                                            <th>Estado Inicial</th>
+                                            <th>Estado</th>
                                             <th>Acción</th>
                                         </tr>
                                         </thead>

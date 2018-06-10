@@ -16,6 +16,7 @@ class CreateOcupacionsTable extends Migration
         Schema::create('ocupacions', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('ocupada');
+            $table->unsignedBigInteger('tiempo_ocupada')->nullable();
             $table->integer('plaza_id')->unsigned();
             $table->integer('nodemcu_id')->unsigned();
             $table->timestamps();

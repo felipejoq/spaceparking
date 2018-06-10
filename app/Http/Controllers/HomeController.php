@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Plaza;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $plazas = Plaza::all()->load('tipo','nodemcu');
+
+        return view('administracion',compact('plazas'));
     }
 
     public function nosotros(){

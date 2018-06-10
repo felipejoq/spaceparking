@@ -23,7 +23,7 @@
         </a>
     </div>
     <div class="card-header">
-        <a href="#">
+        <a href="{{ route('reportes.index') }}">
             <i class="material-icons iconos">show_chart</i>
             Reportes
         </a>

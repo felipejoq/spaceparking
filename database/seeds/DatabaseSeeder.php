@@ -64,6 +64,13 @@ class DatabaseSeeder extends Seeder
         $tipo3->descripcion = "Plaza reservada para embarazadas.";
         $tipo3->save();
 
+        $user1 = new User();
+        $user1->name = "Master User";
+        $user1->email = "admin@admin.com";
+        $user1->password = bcrypt('123123');
+        $user1->admin = 1;
+        $user1->save();
+
         factory(Plaza::class, 2)->create();
         factory(\App\Disponibilidad::class,1)->create();
     }

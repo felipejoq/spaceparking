@@ -21,6 +21,10 @@ a:hover, a:visited, a:link, a:active
     vertical-align: middle;
 }
 
+.red-color{
+    color: #bd2130;
+}
+
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }

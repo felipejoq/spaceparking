@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ocupacion;
 
 use App\Disponibilidad;
 use App\Ocupacion;
+use App\Plaza;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,9 +17,9 @@ class OcupacionController extends Controller
      */
     public function index()
     {
-        //$ocupaciones = Ocupacion::with(['plaza','nodemcu'])->get();
+        $ocupaciones = Ocupacion::all();
 
-        //return response()->json(['data' => $ocupaciones],200);
+        return response()->json(['data' => $ocupaciones],200);
 
     }
 
@@ -40,20 +41,39 @@ class OcupacionController extends Controller
      */
     public function store(Request $request)
     {
-        $ocupacion = new Ocupacion();
-        if($request->ocupada === "true"){
 
-            $this->descontarDisponibilidad($request);
 
-            //Asignamos ocupación.
-            $ocupacion->ocupada = 1;
+        $plaza = Plaza::findOrFail($request->plaza_id);
 
-        }else{
+        if($request->ocupada === "true" && $plaza->estado_inicial === "Disponible"){
+
+                $ocupacion = new Ocupacion();
+
+                $this->descontarDisponibilidad($request);
+
+                //Asignamos ocupación.
+                $ocupacion->ocupada = 1;
+                $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
+
+                $plaza->estado_inicial = "No disponible";
+
+
+        }else if($request->ocupada === "false" && $plaza->estado_inicial === "No disponible"){
 
             $this->agregarDisponibilidad($request);
 
+            $ocupacion = Ocupacion::all()
+                ->where('plaza_id', $request->plaza_id)
+                ->sortByDesc('created_at')
+                ->first();
+
+            //dd($ocupacion);
+
             //Asignamos ocupación.
             $ocupacion->ocupada = 0;
+            $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
+
+            $plaza->estado_inicial = "Disponible";
         }
 
         $ocupacion->plaza_id = $request->plaza_id;
@@ -62,6 +82,7 @@ class OcupacionController extends Controller
 
 
         $ocupacion->save();
+        $plaza->save();
 
         return response()->json(['data' => $ocupacion],200);
     }
