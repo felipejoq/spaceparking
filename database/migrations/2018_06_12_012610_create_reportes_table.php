@@ -15,10 +15,14 @@ class CreateReportesTable extends Migration
     {
         Schema::create('reportes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->date('fecha');
+            $table->string('nombre_reporte');
+            $table->string('descripcion_reporte');
+            $table->string('fechainicio');
+            $table->string('fechafin');
+            $table->integer('plaza_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('set null');
         });
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Reporte;
 
+use App\Plaza;
+use App\Reporte;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +16,11 @@ class ReporteController extends Controller
      */
     public function index()
     {
-        return view('admin.reportes');
+        $plazas = Plaza::all();
+        $reportes = Reporte::all();
+
+        return view('admin.reportes',compact(['plazas', 'reportes']));
+
     }
 
     /**
@@ -35,7 +41,20 @@ class ReporteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $reporte = new Reporte();
+        $reporte->nombre_reporte = $request->nombre_reporte;
+        $reporte->descripcion_reporte = $request->descripcion_reporte;
+        $reporte->fechainicio = $request->datestart;
+        $reporte->fechafin = $request->dateend;
+        $reporte->plaza_id = $request->idplaza;
+        $reporte->save();
+
+        $plazas = Plaza::all();
+        $reportes = Reporte::all()->load('plaza');
+
+        return redirect()->route('reportes.index',compact(['plazas', 'reportes']))
+            ->with('flash','¡El reporte fue guardado!');
     }
 
     /**
@@ -44,9 +63,10 @@ class ReporteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Reporte $reporte)
     {
-        //
+        $reporte->load('plaza');
+        return response()->json($reporte,200);
     }
 
     /**
@@ -78,8 +98,14 @@ class ReporteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Reporte $reporte)
     {
-        //
+        $reporte->delete();
+
+        $plazas = Plaza::all();
+        $reportes = Reporte::all()->load('plaza');
+
+        return redirect()->route('reportes.index',compact(['plazas', 'reportes']))
+            ->with('flash2','¡El reporte fue eliminado!');
     }
 }

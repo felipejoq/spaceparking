@@ -6,4 +6,4 @@ Route::resource('ocupacion', 'Ocupacion\OcupacionController',['only' => ['index'
 
 Route::resource('disponibilidad', 'Disponibilidad\DisponibilidadController',['only' => ['index','store']]);
 
-Route::get('listaplazas', 'Plaza\PlazaController@returnPlazas');
+Route::get('reporte/{idplaza}/fecha/{datestart}/{dateend}', 'Plaza\PlazaController@returnPlazas');

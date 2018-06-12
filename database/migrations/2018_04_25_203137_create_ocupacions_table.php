@@ -23,7 +23,6 @@ class CreateOcupacionsTable extends Migration
 
             $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
             $table->foreign('nodemcu_id')->references('id')->on('nodemcus')->onDelete('cascade');
-
         });
     }
 

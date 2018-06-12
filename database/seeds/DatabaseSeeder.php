@@ -1,5 +1,6 @@
 <?php
 
+use App\Disponibilidad;
 use App\Estacionamiento;
 use App\Nodemcu;
 use App\Ocupacion;
@@ -27,7 +28,7 @@ class DatabaseSeeder extends Seeder
         Tipo::truncate();
         Estacionamiento::truncate();
         Reporte::truncate();
-        DB::table('plazas_reporte')->truncate();
+        //DB::table('plazas_reporte')->truncate();
 
         User::flushEventListeners();
         Plaza::flushEventListeners();
@@ -69,9 +70,26 @@ class DatabaseSeeder extends Seeder
         $user1->email = "admin@admin.com";
         $user1->password = bcrypt('123123');
         $user1->admin = 1;
+        $user1->estacionamiento_id = 1;
         $user1->save();
 
+        $reporte1 = new Reporte();
+        $reporte1->nombre_reporte = "Fiestas Patrias 2017";
+        $reporte1->descripcion_reporte = "Ocupación de la plaza 1 durante el 17 y 19 de septiembre de 2017";
+        $reporte1->fechainicio = "17-09-2017";
+        $reporte1->fechafin = "19-09-2017";
+        $reporte1->plaza_id = 1;
+        $reporte1->save();
+
+        $reporte2 = new Reporte();
+        $reporte2->nombre_reporte = "Navidad 2017";
+        $reporte2->descripcion_reporte = "Ocupación de la plaza 1 durante el 17 y 19 de septiembre de 2017";
+        $reporte2->fechainicio = "20-12-2017";
+        $reporte2->fechafin = "27-12-2017";
+        $reporte2->plaza_id = 2;
+        $reporte2->save();
+
         factory(Plaza::class, 2)->create();
-        factory(\App\Disponibilidad::class,1)->create();
+        factory(Disponibilidad::class,1)->create();
     }
 }

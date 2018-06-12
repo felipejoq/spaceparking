@@ -7,8 +7,10 @@ use App\Nodemcu;
 use App\Ocupacion;
 use App\Plaza;
 use App\Tipo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 
 class PlazaController extends Controller
 {
@@ -124,7 +126,7 @@ class PlazaController extends Controller
         $listadetipos = Tipo::all();
 
         return redirect()->route('plazas.index',compact(['listadenodemcu','listadeplazas','listadetipos']))
-        ->with('flash2','¡La plaza fue editada!');
+            ->with('flash2','¡La plaza fue editada!');
     }
 
     /**
@@ -147,11 +149,86 @@ class PlazaController extends Controller
             ->with('flash3','¡La plaza fue eliminada!');
     }
 
-    public function  returnPlazas(){
+    public function  returnPlazas($idplaza, $datestart, $dateend){
 
-        $plazas = Plaza::all()->load('tipo','nodemcu');
+        $inicio = $datestart;
+        $fin = $dateend;
 
-        return response()->json($plazas,200);
+        $plaza = Plaza::findOrFail($idplaza);
+        $fechainicio = Carbon::parse($datestart)->format("Y-m-d H:i:s");
+        $dateend = $dateend . " 23:59:00";
+        $fechafin = Carbon::parse($dateend)->format("Y-m-d H:i:s");
+
+        if($inicio != $fin){
+
+            /**
+             * Pasos para lograr el array
+             * Buscar la primera fecha y sumar sus tiempos ocupadas.
+             * Sumar un dia a la fecha y verificar si es menor o igual a la fecha de fin.
+             * Si es menor seguir sumando los tiempos y agregando las fechas al array.
+             * Hasta llegar a la fecha fin.
+             */
+
+            $ocupas = Ocupacion::all()
+                ->where('created_at','>=', $fechainicio)
+                ->where('created_at','<=', $fechafin)
+                ->where('plaza_id', $idplaza);
+
+            $i = new Carbon($fechainicio);
+            $total = 0;
+            $result = [];
+            $lafecha = null;
+
+            while($i <= $fechafin){
+
+                foreach ($ocupas as $ocupa) {
+                    if ($ocupa->created_at->format("Y-m-d") == $i->format("Y-m-d")) {
+                        $total = $total + $ocupa->tiempo_ocupada;
+                        $lafecha = $i->format("d-m-Y");
+                    }
+                }
+
+                if($total > 0){
+                    $result[] = [
+                        "fecha" => $lafecha,
+                        "tiempo" => $total / 3600
+                    ];
+
+                    $total = 0;
+                }else{
+                    $result[] = [
+                        "fecha" => $i->format("d-m-Y"),
+                        "tiempo" => 0
+                    ];
+                }
+
+                $i->addDay(1);
+            }
+
+            return response()->json($result,200);
+
+        }elseif($inicio == $fin){
+
+            $ocupas = $plaza->ocupaciones;
+
+            $tiempo = 0;
+
+            foreach ($ocupas as $ocupa){
+
+                if ($ocupa->created_at->format("Y-m-d") == Carbon::parse($fechainicio)->format("Y-m-d")){
+                    $tiempo = $tiempo + $ocupa->tiempo_ocupada;
+                }
+            }
+
+            $result[] = [
+                "fecha" => Carbon::parse($fechainicio)->format("Y-m-d"),
+                "tiempo" => $tiempo/3600
+            ];
+
+
+            return response()->json($result,200);
+        }
+
 
     }
 

@@ -28,4 +28,8 @@ class Plaza extends Model
         return $this->belongsTo(Nodemcu::class,'nodemcu_id');
     }
 
+    public function reportes(){
+        return $this->hasMany(Reporte::class);
+    }
+
 }
