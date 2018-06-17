@@ -34,11 +34,12 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="admine">Es administrador:</label>
-                            <select class="custom-select" name="admin" id="admine" required>
+                            <label for="rolee">Rol:</label>
+                            <select class="custom-select" name="rolee" id="rolee" required>
                                 <option value="">Seleccione una opción…</option>
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
                             </select>
 
                         </div>

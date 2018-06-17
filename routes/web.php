@@ -52,6 +52,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
 
     Route::resource('usuario','Usuario\UsuarioController',['except' => ['create','edit']]);
 
-    Route::resource('reportes','Reporte\ReporteController',['except' => ['create','edit']]);
+    Route::resource('reportes','Reporte\ReporteController',['except' => ['create','edit']])->middleware('admin');
 
 });

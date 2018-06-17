@@ -23,7 +23,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="txtdescripciontipo">Descripción:</label>
-                            <input class="form-control" id="txtdescripciontipo" type="text" readonly>
+                            <textarea class="form-control" id="txtdescripciontipo" type="text" readonly></textarea>
                         </div>
                     </div>
                 </div>

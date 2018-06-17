@@ -4,7 +4,7 @@
         Menú de opciones
     </div>
 
-    <!--<div class="card-header">
+<!--<div class="card-header">
         <a href="{{route('index')}}">
             <i class="material-icons iconos">home</i>
             Portada
@@ -22,17 +22,19 @@
             Estacionamiento
         </a>
     </div>
-    <div class="card-header">
-        <a href="{{ route('reportes.index') }}">
-            <i class="material-icons iconos">show_chart</i>
-            Reportes
-        </a>
-    </div>
-    <div class="card-header" id="accordion">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                <i class="material-icons iconos">add</i>
-                Administración
+    @if(auth()->user()->hasRole('Administrador'))
+        <div class="card-header">
+            <a href="{{ route('reportes.index') }}">
+                <i class="material-icons iconos">show_chart</i>
+                Reportes
             </a>
+        </div>
+    @endif
+    <div class="card-header" id="accordion">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            <i class="material-icons iconos">add</i>
+            Administración
+        </a>
     </div>
     <div id="collapseOne" class="panel-collapse collapse {!! Request::is('admin/plazas') || Request::is('admin/tipos') ? 'show' : '' !!}">
         <table class="table">

@@ -10,6 +10,8 @@ use App\Tipo;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
         User::truncate();
         Plaza::truncate();
         Ocupacion::truncate();
@@ -28,6 +30,8 @@ class DatabaseSeeder extends Seeder
         Tipo::truncate();
         Estacionamiento::truncate();
         Reporte::truncate();
+        Role::truncate();
+        Permission::truncate();
         //DB::table('plazas_reporte')->truncate();
 
         User::flushEventListeners();
@@ -37,9 +41,34 @@ class DatabaseSeeder extends Seeder
         Tipo::flushEventListeners();
         Reporte::flushEventListeners();
         Estacionamiento::flushEventListeners();
+        Permission::flushEventListeners();
+        Role::flushEventListeners();
 
-        factory(User::class, 2)->create();
+        $administradorRol = Role::create(['name' => 'Administrador']);
+        $trabajadorRol = Role::create(['name' => 'Trabajador']);
+
+        $superPermiso = Permission::create(['name' => 'Super Administrador']);
+
+        $administradorRol->givePermissionTo($superPermiso);
+
         factory(Estacionamiento::class, 1)->create();
+
+        $user1 = new User();
+        $user1->name = "Administrador User";
+        $user1->email = "admin@admin.cl";
+        $user1->password = bcrypt('123123');
+        $user1->estacionamiento_id = 1;
+        $user1->save();
+        $user1->assignRole($administradorRol);
+
+        $user2 = new User();
+        $user2->name = "Trabajador User";
+        $user2->email = "trabajador@admin.cl";
+        $user2->password = bcrypt('123123');
+        $user2->estacionamiento_id = 1;
+        $user2->save();
+        $user2->assignRole($trabajadorRol);
+
         //factory(Nodemcu::class, 2)->create();
 
         $node1 = new Nodemcu();
@@ -65,14 +94,6 @@ class DatabaseSeeder extends Seeder
         $tipo3->descripcion = "Plaza reservada para embarazadas.";
         $tipo3->save();
 
-        $user1 = new User();
-        $user1->name = "Master User";
-        $user1->email = "admin@admin.com";
-        $user1->password = bcrypt('123123');
-        $user1->admin = 1;
-        $user1->estacionamiento_id = 1;
-        $user1->save();
-
         $reporte1 = new Reporte();
         $reporte1->nombre_reporte = "Fiestas Patrias 2017";
         $reporte1->descripcion_reporte = "Ocupación de la plaza 1 durante el 17 y 19 de septiembre de 2017";
@@ -91,5 +112,8 @@ class DatabaseSeeder extends Seeder
 
         factory(Plaza::class, 2)->create();
         factory(Disponibilidad::class,1)->create();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+
     }
 }

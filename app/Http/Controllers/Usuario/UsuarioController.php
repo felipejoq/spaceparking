@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller
 {
@@ -41,7 +42,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->toArray());
+        $rol = Role::findById($request->role);
 
         $rules = [
             'name'  => 'required|min:5',
@@ -59,10 +60,11 @@ class UsuarioController extends Controller
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->password = bcrypt($request->password);
-        $usuario->admin = $request->admin;
-        $usuario->estacionamiento_id = $estacionamiento->id;
+        $usuario->estacionamiento_id = 1;
 
         $usuario->save();
+
+        $usuario->assignRole($rol);
 
         $usuario->password = $request->password;
 
@@ -80,6 +82,7 @@ class UsuarioController extends Controller
      */
     public function show(User $usuario)
     {
+        $usuario->load('roles');
         return response()->json($usuario,200);
     }
 
@@ -118,10 +121,10 @@ class UsuarioController extends Controller
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->password = auth()->user()->getAuthPassword();
-        $usuario->admin = $request->admin;
         $usuario->estacionamiento_id = 1;
 
         $usuario->save();
+        $usuario->syncRoles(Role::findById($request->rolee));
 
         $estacionamiento = Estacionamiento::latest()->first()->load('administradores');
 

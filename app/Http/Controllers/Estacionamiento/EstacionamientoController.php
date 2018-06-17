@@ -7,6 +7,7 @@ use App\Estacionamiento;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
 
 class EstacionamientoController extends Controller
 {
@@ -21,13 +22,15 @@ class EstacionamientoController extends Controller
 
         $administradores = User::all();
 
+        $roles = Role::all();
+
         $numAdmin = 0;
 
         foreach ($administradores as $a) {
-            if ($a->admin == 1) $numAdmin = $numAdmin + 1;
+            if ($a->hasRole('Administrador')) $numAdmin = $numAdmin + 1;
         }
 
-        return view('admin.estacionamiento', compact(['estacionamiento', 'administradores','numAdmin']));
+        return view('admin.estacionamiento', compact(['estacionamiento', 'administradores','numAdmin', 'roles']));
     }
 
     /**

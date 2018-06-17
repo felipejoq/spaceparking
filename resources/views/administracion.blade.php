@@ -24,7 +24,7 @@
                                                 <p><strong>Descripción:</strong> {{ $plaza->descripcion }}</p>
                                                 <p><strong>Estado:</strong> <span id="estado_plaza_{!! $plaza->id !!}" class="{{ $plaza->estado_inicial == "No disponible" ? 'red-color' : '' }}">{{ $plaza->estado_inicial }}</span></p>
                                             </div>
-                                            <a href="#" class="btn btn-primary text-white">Ver detalles</a>
+                                            <a href="{{ route('plazas.index') }}" class="btn btn-primary text-white">Ver detalles</a>
                                         </div>
                                     </div>
                                     <hr>

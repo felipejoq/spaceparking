@@ -35,10 +35,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="admind">Es administrador:</label>
-                            <select class="custom-select" name="admin" id="adminv" disabled>
-                                <option value="">Seleccione una opción…</option>
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                            <select class="custom-select" name="admind" id="adminv" disabled>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
                             </select>
 
                         </div>

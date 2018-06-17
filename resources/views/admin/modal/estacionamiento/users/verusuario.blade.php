@@ -58,13 +58,8 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="adminv">Es administrador:</label>
-                        <select class="custom-select" name="admin" id="adminv" disabled>
-                            <option value="">Seleccione una opción…</option>
-                            <option value="1">Si</option>
-                            <option value="0">No</option>
-                        </select>
-
+                        <label for="adminv">Rol(es):</label>
+                        <input value="" id="adminv" name="adminv" class="form-control" type="text" readonly>
                     </div>
                 </div>
 

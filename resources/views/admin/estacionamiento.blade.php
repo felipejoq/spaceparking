@@ -27,7 +27,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="" style="display: inline;">
-                                    Datos del estacionamiento <div class="" style="float: right;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarestacionamiento"><i class="material-icons iconos md-18 iconos">edit</i> Editar</button></div>
+                                    Datos del estacionamiento @if(auth()->user()->hasRole('Administrador'))<div class="" style="float: right;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarestacionamiento"><i class="material-icons iconos md-18 iconos">edit</i> Editar</button></div>@endif
                                 </div>
                             </div>
 
@@ -59,7 +59,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                Lista de usuarios <div class="" style="float: right;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregarusuario"><i class="material-icons iconos md-18 iconos">add</i> Agregar Usuario</button></div>
+                                Lista de usuarios @if(auth()->user()->hasRole('Administrador'))<div class="" style="float: right;"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#agregarusuario"><i class="material-icons iconos md-18 iconos">add</i> Agregar Usuario</button></div>@endif
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -70,8 +70,10 @@
                                                 <th>ID</th>
                                                 <th>Nombre</th>
                                                 <th>Descripción</th>
-                                                <th>Admin</th>
-                                                <th>Acción</th>
+                                                <th>Rol</th>
+                                                @if(auth()->user()->hasRole('Administrador'))
+                                                    <th>Acción</th>
+                                                @endif
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -80,8 +82,9 @@
                                                     <td>{{ $admin->id }}</td>
                                                     <td>{{ $admin->name }}</td>
                                                     <td>{{ $admin->email }}</td>
-                                                    <td>{{ $admin->admin == 1 ? 'Si' : 'No' }}</td>
-                                                    <td>
+                                                    <td>{{ $admin->getRoleNames()->implode(', ') }}</td>
+                                                    @if(auth()->user()->hasRole('Administrador'))
+                                                        <td>
                                                         <div class="btn-group">
 
                                                             <button type="button" id="verusuario-{{ $admin->id }}" class="btn btn-sm" data-toggle="modal" data-target="#verusuario">
@@ -96,9 +99,10 @@
                                                                             console.log('hubo un error');
                                                                         },
                                                                         success: function (data) {
+
+                                                                            $('#adminv').val(data.roles[0].name);
                                                                             $('#nombrev').val(data.name);
                                                                             $('#emailv').val(data.email);
-                                                                            $('select[id=adminv]').val(data.admin);
                                                                         }
                                                                     });
                                                                 });
@@ -116,10 +120,9 @@
                                                                             console.log('hubo un error');
                                                                         },
                                                                         success: function (data) {
-                                                                            console.log(data);
                                                                             $('#nombree').val(data.name);
                                                                             $('#emaile').val(data.email);
-                                                                            $('select[id=admine]').val(data.admin);
+                                                                            $('select[id=rolee]').val(data.roles[0].id);
 
                                                                             $('#formedita').attr('action', 'usuario/'+data.id);
                                                                         }
@@ -139,10 +142,10 @@
                                                                             console.log('hubo un error');
                                                                         },
                                                                         success: function (data) {
-                                                                            console.log(data);
+
                                                                             $('#nombred').val(data.name);
                                                                             $('#emaild').val(data.email);
-                                                                            $('select[id=admind]').val(data.admin);
+                                                                            $('select[name=admind]').val(data.roles[0].id);
 
                                                                             $('#formelimina').attr('action', 'usuario/'+data.id);
                                                                         }
@@ -152,6 +155,7 @@
 
                                                         </div>
                                                     </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                             </tbody>
