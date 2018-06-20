@@ -9,6 +9,14 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="container">
+                    <div class="row alert-danger">
+                        <div class="col-md-12 text-center">
+                            <strong>¡Cuidado!</strong> si elimina esta plaza, eliminará también todos los datos asociados a ella.
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <form id="formeliminarplaza" action="" method="POST">
                     {{ csrf_field() }} {{ method_field('DELETE') }}
                     <div class="col-md-12">

@@ -50,6 +50,7 @@ class PlazaController extends Controller
         $plazacreada->nodemcu_id = $request->nodemcu_id;
         $plazacreada->numero_plaza = $request->numero_plaza;
         $plazacreada->estado_inicial = $request->estado_inicial;
+        $plazacreada->quien_edita = $request->estado_inicial == "Disponible" ? '0' : $request->quien_edita;
         $plazacreada->descripcion = $request->descripcion;
         $plazacreada->tipo_id = $request->tipo_id;
 
@@ -118,6 +119,7 @@ class PlazaController extends Controller
         $plaza->nodemcu_id = $request->input('nodemcu_id');
         $plaza->tipo_id = $request->input('tipo_id');
         $plaza->estado_inicial = $request->input('estado_inicial');
+        $plaza->quien_edita = $request->estado_inicial == "Disponible" ? '0' : $request->quien_edita;
 
         $plaza->save();
 

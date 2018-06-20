@@ -41,24 +41,37 @@ class OcupacionController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $plaza = Plaza::findOrFail($request->plaza_id);
+
+        $ocupacion = null;
+
+        if ($plaza->quien_edita > 0){
+            return response()->json('Acción denegada',404);
+        }
 
         if($request->ocupada === "true" && $plaza->estado_inicial === "Disponible"){
 
-                $ocupacion = new Ocupacion();
+            $plaza = Plaza::findOrFail($request->plaza_id);
 
-                $this->descontarDisponibilidad($request);
+            $ocupacion = new Ocupacion();
 
-                //Asignamos ocupación.
-                $ocupacion->ocupada = 1;
-                $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
+            $this->descontarDisponibilidad($request);
 
-                $plaza->estado_inicial = "No disponible";
+            //Asignamos ocupación.
+            $ocupacion->ocupada = 1;
+            $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
+
+            $plaza->estado_inicial = "No disponible";
+            $ocupacion->plaza_id = $request->plaza_id;
+            $ocupacion->nodemcu_id = $request->nodemcu_id;
+
+            $ocupacion->save();
+            $plaza->save();
 
 
         }else if($request->ocupada === "false" && $plaza->estado_inicial === "No disponible"){
+
+            $plaza = Plaza::findOrFail($request->plaza_id);
 
             $this->agregarDisponibilidad($request);
 
@@ -70,19 +83,23 @@ class OcupacionController extends Controller
             //dd($ocupacion);
 
             //Asignamos ocupación.
-            $ocupacion->ocupada = 0;
-            $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
+            if ($ocupacion != null) {
+                $ocupacion->ocupada = 0;
+                $ocupacion->tiempo_ocupada = $request->tiempo_ocupada;
 
-            $plaza->estado_inicial = "Disponible";
+                $plaza->estado_inicial = "Disponible";
+                $ocupacion->plaza_id = $request->plaza_id;
+                $ocupacion->nodemcu_id = $request->nodemcu_id;
+
+                $ocupacion->save();
+                $plaza->save();
+            }
         }
 
-        $ocupacion->plaza_id = $request->plaza_id;
-        $ocupacion->nodemcu_id = $request->nodemcu_id;
+        if ($ocupacion == null){
+            $ocupacion = "Sin cambios.";
+        }
 
-
-
-        $ocupacion->save();
-        $plaza->save();
 
         return response()->json(['data' => $ocupacion],200);
     }

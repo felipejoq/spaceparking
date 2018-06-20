@@ -8,6 +8,7 @@ use App\Plaza;
 use App\Reporte;
 use App\Tipo;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -102,16 +103,54 @@ class DatabaseSeeder extends Seeder
         $reporte1->plaza_id = 1;
         $reporte1->save();
 
-        $reporte2 = new Reporte();
-        $reporte2->nombre_reporte = "Navidad 2017";
-        $reporte2->descripcion_reporte = "Ocupación de la plaza 1 durante el 17 y 19 de septiembre de 2017";
-        $reporte2->fechainicio = "20-12-2017";
-        $reporte2->fechafin = "27-12-2017";
-        $reporte2->plaza_id = 2;
-        $reporte2->save();
+        $plaza1 = new Plaza();
+        $plaza1->numero_plaza = "001";
+        $plaza1->descripcion = "Plaza 001 para pruebas.";
+        $plaza1->estado_inicial = "Disponible";
+        $plaza1->quien_edita = 0;
+        $plaza1->tipo_id = 1;
+        $plaza1->nodemcu_id = 1;
+        $plaza1->save();
 
-        factory(Plaza::class, 2)->create();
+        $plaza2 = new Plaza();
+        $plaza2->numero_plaza = "002";
+        $plaza2->descripcion = "Plaza 002 para pruebas.";
+        $plaza2->estado_inicial = "Disponible";
+        $plaza2->quien_edita = 0;
+        $plaza2->tipo_id = 1;
+        $plaza2->nodemcu_id = 1;
+        $plaza2->save();
+
+        //factory(Plaza::class, 2)->create();
         factory(Disponibilidad::class,1)->create();
+        //factory(Ocupacion::class,5)->create();
+
+        $ocupacion1 = new Ocupacion([
+            'ocupada' => 0,
+            'tiempo_ocupada' => 7600,
+            'plaza_id' => 1,
+            'nodemcu_id' => 1,
+            'created_at' => Carbon::parse('17-09-2017')
+        ]);
+        $ocupacion1->save();
+
+        $ocupacion2 = new Ocupacion([
+            'ocupada' => 0,
+            'tiempo_ocupada' => 8600,
+            'plaza_id' => 1,
+            'nodemcu_id' => 1,
+            'created_at' => Carbon::parse('18-09-2017')
+        ]);
+        $ocupacion2->save();
+
+        $ocupacion3 = new Ocupacion([
+            'ocupada' => 0,
+            'tiempo_ocupada' => 12600,
+            'plaza_id' => 1,
+            'nodemcu_id' => 1,
+            'created_at' => Carbon::parse('19-09-2017')
+        ]);
+        $ocupacion3->save();
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
 

@@ -12,6 +12,8 @@
                 <form method="POST" action="{{route('plazas.store')}}">
                     {{ csrf_field() }}
 
+                    <input type="text" hidden value="{{ auth()->user()->id }}" name="quien_edita">
+
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">

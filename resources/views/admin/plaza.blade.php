@@ -36,28 +36,30 @@
                     <div class="card">
                         <div class="card-header">Administración de plazas</div>
 
-                            <div class="col-md-12">
-                                <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
                                 <div class="col-md-12 text-right">
                                     <p class="row">
                                     <div class="col-md-12">
-                                        <form class="text-left" method="POST" action="{{route('nodemcu.store')}}">
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="material-icons iconos">add</i>
-                                                Agregar un Nodemcu
-                                            </button>
+                                        @if(auth()->user()->hasRole('Administrador'))
+                                            <form class="text-left" method="POST" action="{{route('nodemcu.store')}}">
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-sm btn-primary">
+                                                    <i class="material-icons iconos">add</i>
+                                                    Agregar un Nodemcu
+                                                </button>
 
-                                            <button id="btadminnodemcu" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#adminnodemcu">
-                                                <i class="material-icons iconos">settings_applications</i>
-                                                Admin Nodemcu
-                                            </button>
+                                                <button id="btadminnodemcu" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#adminnodemcu">
+                                                    <i class="material-icons iconos">settings_applications</i>
+                                                    Admin Nodemcu
+                                                </button>
 
-                                            <button id="agregarp" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarplaza">
-                                                <i class="material-icons tiny" style="vertical-align: middle;">add_box</i>
-                                                Agregar Plaza
-                                            </button>
-                                        </form>
+                                                <button id="agregarp" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarplaza">
+                                                    <i class="material-icons tiny" style="vertical-align: middle;">add_box</i>
+                                                    Agregar Plaza
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                     </p>
                                 </div>
@@ -131,30 +133,32 @@
 
                                                         </script>
 
-                                                        <button id="eliminar-{!! $unaplaza->id !!}" type="button" class="btn btn-sm" data-toggle="modal" data-target="#eliminarplaza">
-                                                            <i class="material-icons tiny">delete</i>
-                                                        </button>
+                                                        @if(auth()->user()->hasRole('Administrador'))
+                                                            <button id="eliminar-{!! $unaplaza->id !!}" type="button" class="btn btn-sm" data-toggle="modal" data-target="#eliminarplaza">
+                                                                <i class="material-icons tiny">delete</i>
+                                                            </button>
 
-                                                        <script>
-                                                            $('table').on('click', "#eliminar-{!! $unaplaza->id !!}", function() {
-                                                                $.ajax({
-                                                                    url: "{{route('plazas.show',compact('unaplaza'))}}",
-                                                                    error: function () {
-                                                                        console.log('hubo un error');
-                                                                    },
-                                                                    success: function (data) {
-                                                                        $('#txtnumeroplazae').val(data.numero_plaza);
-                                                                        $('#txtdescripcionplazae').val(data.descripcion);
-                                                                        $('select[name=verplazanodemcu]').val(data.nodemcu.id);
-                                                                        $('select[name=verplazatipo]').val(data.tipo.id);
-                                                                        $('select[name=verplazaestado]').val(data.estado_inicial);
+                                                            <script>
+                                                                $('table').on('click', "#eliminar-{!! $unaplaza->id !!}", function() {
+                                                                    $.ajax({
+                                                                        url: "{{route('plazas.show',compact('unaplaza'))}}",
+                                                                        error: function () {
+                                                                            console.log('hubo un error');
+                                                                        },
+                                                                        success: function (data) {
+                                                                            $('#txtnumeroplazae').val(data.numero_plaza);
+                                                                            $('#txtdescripcionplazae').val(data.descripcion);
+                                                                            $('select[name=verplazanodemcu]').val(data.nodemcu.id);
+                                                                            $('select[name=verplazatipo]').val(data.tipo.id);
+                                                                            $('select[name=verplazaestado]').val(data.estado_inicial);
 
-                                                                        $('#formeliminarplaza').attr('action', 'plazas/'+data.id);
-                                                                    }
+                                                                            $('#formeliminarplaza').attr('action', 'plazas/'+data.id);
+                                                                        }
+                                                                    });
                                                                 });
-                                                            });
 
-                                                        </script>
+                                                            </script>
+                                                        @endif
 
 
                                                     </div>

@@ -12,6 +12,8 @@
                 <form id="formedita" action="" method="POST">
                     {{ csrf_field() }} {{ method_field('PUT') }}
 
+                    <input type="text" hidden value="{{ auth()->user()->id }}" name="quien_edita">
+
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">

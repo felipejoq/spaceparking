@@ -3,9 +3,11 @@
 use App\Disponibilidad;
 use App\Estacionamiento;
 use App\Nodemcu;
+use App\Ocupacion;
 use App\Plaza;
 use App\Tipo;
 use App\User;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -56,6 +58,7 @@ $factory->define(Plaza::class, function (Faker $faker) {
         'numero_plaza' => $faker->numerify('###'),
         'descripcion' => $faker->sentence(3),
         'estado_inicial' => 'Disponible',
+        'quien_edita' => 0,
         'tipo_id' => 1,
         'nodemcu_id' => 1,
     );
@@ -67,6 +70,17 @@ $factory->define(Disponibilidad::class, function (Faker $faker) {
         'plazas_libres' => Plaza::count(),
         'plazas_ocupadas' => 0,
         'plaza_id' => $faker->numberBetween(1, Plaza::count()),
+    );
+});
+
+$factory->define(Ocupacion::class, function (Faker $faker) {
+    return array(
+        'ocupada' => 0,
+        'tiempo_ocupada' => 3600 * $faker->randomNumber(1),
+        'plaza_id' => 1,
+        'nodemcu_id' => 1,
+        'created_at' => $faker->randomElements(['17-09-2017','19-09-2017']),
+        'updated_at' => $faker->numberBetween(1, Plaza::count()),
     );
 });
 

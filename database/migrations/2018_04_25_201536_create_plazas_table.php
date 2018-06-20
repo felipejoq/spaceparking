@@ -18,6 +18,7 @@ class CreatePlazasTable extends Migration
             $table->string('numero_plaza');
             $table->string('descripcion');
             $table->string('estado_inicial');
+            $table->integer('quien_edita')->unsigned()->nullable();
             $table->integer('tipo_id')->unsigned()->nullable();
             $table->integer('nodemcu_id')->unsigned()->nullable();
             $table->timestamps();

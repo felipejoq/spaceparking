@@ -43,11 +43,13 @@
                     <a href="{{route('plazas.index')}}">Administrar plazas</a>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <a href="{{ route('tipos.index' )}}">Tipos de plazas</a>
-                </td>
-            </tr>
+            @if(auth()->user()->hasRole('Administrador'))
+                <tr>
+                    <td>
+                        <a href="{{ route('tipos.index' )}}">Tipos de plazas</a>
+                    </td>
+                </tr>
+            @endif
         </table>
     </div>
 
