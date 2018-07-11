@@ -27,9 +27,12 @@
                 <div class="card">
                     <div class="card-header" style="display: inline;">
                         Lista de reportes
-                        <div class="" style="float: right;">
+                        <div class="btn-group" style="float: right;">
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#verreportemodal">
-                                Generar Reporte
+                                Generar
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#verconsolidado">
+                                Consolidado
                             </button>
                         </div>
                     </div>
@@ -102,6 +105,7 @@
 
     @include('admin.modal.reportes.muestrareporte')
     @include('admin.modal.reportes.verreporte')
+    @include('admin.modal.reportes.verconsolidado',compact(['plazas' => $plazas]))
 
 @endsection
 

@@ -151,7 +151,7 @@ class PlazaController extends Controller
             ->with('flash3','¡La plaza fue eliminada!');
     }
 
-    public function  returnPlazas($idplaza, $datestart, $dateend){
+    public function returnPlazas($idplaza, $datestart, $dateend){
 
         $inicio = $datestart;
         $fin = $dateend;
@@ -190,10 +190,11 @@ class PlazaController extends Controller
                     }
                 }
 
+                // round(number,precision,mode)
                 if($total > 0){
                     $result[] = [
                         "fecha" => $lafecha,
-                        "tiempo" => $total / 3600
+                        "tiempo" => round($total / 3600, 1,PHP_ROUND_HALF_EVEN)
                     ];
 
                     $total = 0;
@@ -224,13 +225,12 @@ class PlazaController extends Controller
 
             $result[] = [
                 "fecha" => Carbon::parse($fechainicio)->format("Y-m-d"),
-                "tiempo" => $tiempo/3600
+                "tiempo" => round($tiempo/3600,1, PHP_ROUND_HALF_EVEN)
             ];
 
 
             return response()->json($result,200);
         }
-
 
     }
 

@@ -123,7 +123,7 @@
                 }
 
                 $.ajax({
-                    url: "/api/reporte/"+ idplaza +"/fecha/"+ fechainicia +"/"+ fechafin,
+                    url: "/admin/reporte/"+ idplaza +"/fecha/"+ fechainicia +"/"+ fechafin,
                     error: function () {
                         console.log('hubo un error')
                     },

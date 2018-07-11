@@ -76,11 +76,10 @@ $factory->define(Disponibilidad::class, function (Faker $faker) {
 $factory->define(Ocupacion::class, function (Faker $faker) {
     return array(
         'ocupada' => 0,
-        'tiempo_ocupada' => 3600 * $faker->randomNumber(1),
-        'plaza_id' => 1,
+        'tiempo_ocupada' => $faker->numberBetween(1800,3600),
+        'plaza_id' => $faker->numberBetween(1,4),
         'nodemcu_id' => 1,
-        'created_at' => $faker->randomElements(['17-09-2017','19-09-2017']),
-        'updated_at' => $faker->numberBetween(1, Plaza::count()),
+        'created_at' => $faker->dateTimeBetween('01-01-2018','01-08-2018'),
+        'updated_at' => $faker->dateTimeBetween('01-01-2018','01-08-2018'),
     );
 });
-

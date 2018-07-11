@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ocupacion extends Model
 {
-    protected $hidden = ['plaza_id','nodemcu_id'];
+    protected $hidden = ['updated_at'];
 
     public function plaza(){
         return $this->belongsTo(Plaza::class);

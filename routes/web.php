@@ -36,7 +36,7 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
     Route::get('/', 'HomeController@index')->name('admin');
 
@@ -54,4 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
 
     Route::resource('reportes','Reporte\ReporteController',['except' => ['create','edit']])->middleware('admin');
 
+    Route::get('reporte/{idplaza}/fecha/{datestart}/{dateend}', 'Plaza\PlazaController@returnPlazas')->name('reportes.porfecha');
 });
+
+Route::get('admin/reporte/consolidado/{year}', 'Plaza\PlazaReporteController@consolidado')->middleware('auth');

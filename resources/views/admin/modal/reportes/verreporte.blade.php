@@ -46,7 +46,7 @@
             }
 
             $.ajax({
-                url: "/api/reporte/"+ idp +"/fecha/"+ fi +"/"+ ff,
+                url: "/admin/reporte/"+ idp +"/fecha/"+ fi +"/"+ ff,
                 error: function () {
                     console.log('hubo un error')
                 },
