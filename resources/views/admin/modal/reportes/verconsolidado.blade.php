@@ -32,18 +32,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" id="crealatabla">
                                 <table id="tbconsolidado" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <!--<th>Plaza</th>
-                                        <th>Tipo</th>
-                                        <th>Tiempo ocupada</th>
-                                        <th>Veces ocupada</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <!-- aquí se pone el contenido -->
                                     </tbody>
                                 </table>
                             </div>
@@ -71,10 +66,20 @@
 
                 var year = $('#yearsolicita').val();
 
+                $('#tbconsolidado').remove();
+
                 if(!$('#yearsolicita').val()){
                     alert('Elija un año');
                 }else{
 
+                    var tabla = "<table id=\"tbconsolidado\" class=\"table table-striped\">\n" +
+                        "                                    <thead>\n" +
+                        "                                    <tr>\n" +
+                        "                                    </tr>\n" +
+                        "                                    </thead>\n" +
+                        "                                    <tbody>\n" +
+                        "                                    </tbody>\n" +
+                        "                                </table>";
 
 
                     $('#genera').append("<div id=\"gen\" class=\"text-center\"><p>Generando...</p><img src=\"{!! route('index') !!}/img/load.gif\" width=\"200\"/><div>");
@@ -92,16 +97,19 @@
 
                             $('#gen').remove();
 
+                            $('#crealatabla').append(tabla);
+
+
                             $.each(data, function(i, item) {
 
                                 var headertable = "<tr><td class='table-light' style='height: 2px' colspan='5'></td></tr>" +
                                     "<tr><td class='table-primary' colspan='5'><strong>Desde " + item[0].inicio +" al " + item[0].fin +"</strong></td></tr>";
                                 var titulos = "<tr>" +
-                                    "<td> # </td>" +
-                                    "<td> Plaza </td>" +
-                                    "<td> Tipo </td>" +
-                                    "<td> Veces ocupada </td>" +
-                                    "<td> Tiempo ocupada </td>" +
+                                    "<td>#</td>" +
+                                    "<td>Plaza</td>" +
+                                    "<td>Tipo</td>" +
+                                    "<td>Tiempo ocupada (Hrs)</td>" +
+                                    "<td>Veces ocupada</td>" +
                                     "</tr>";
 
                                 $("#tbconsolidado tbody").append(headertable);

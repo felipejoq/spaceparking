@@ -30,15 +30,17 @@ class PlazaReporteController extends Controller
 
         while ($inicio <= $fin){
 
-            $i = $inicio->format('d-m-Y');
-            $f = Carbon::parse($inicio)->addMonth(1)->subDay(1)->format('d-m-Y');
+            $i = Carbon::parse($inicio);
+            $f = Carbon::parse($inicio)->addMonth(1)->subDay(1);
 
+            $contador2 = 0;
             foreach ($plazas as $plaza){
                 $ocupacionesCiclos = $ocupaciones
                     ->where('created_at','>=',$i)
                     ->where('created_at','<=',$f)
                     ->where('plaza_id','=', $plaza->id);
 
+                ;
 
                 foreach ($ocupacionesCiclos as $ocupacionesCiclo){
                     $tiempoporplaza = $ocupacionesCiclo->tiempo_ocupada + $tiempoporplaza;
@@ -57,13 +59,12 @@ class PlazaReporteController extends Controller
 
                 $tiempoporplaza = 0;
 
+                $contador2++;
             }
 
             $resultadopormes[] = $resultado;
 
-            $resultado = [];
-
-
+            $resultado = null;
 
             $cuenta++;
             $inicio->addMonth(1);

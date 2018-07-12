@@ -79,7 +79,7 @@ $factory->define(Ocupacion::class, function (Faker $faker) {
         'tiempo_ocupada' => $faker->numberBetween(1800,3600),
         'plaza_id' => $faker->numberBetween(1,4),
         'nodemcu_id' => 1,
-        'created_at' => $faker->dateTimeBetween('01-01-2018','01-08-2018'),
-        'updated_at' => $faker->dateTimeBetween('01-01-2018','01-08-2018'),
+        'created_at' => $faker->dateTimeBetween('01-01-2018','01-07-2018'),
+        'updated_at' => $faker->dateTimeBetween('01-01-2018','01-07-2018'),
     );
 });
