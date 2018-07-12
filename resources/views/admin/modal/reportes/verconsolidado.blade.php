@@ -31,6 +31,23 @@
                                 <d id="mesrepo"></d>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="tbconsolidado" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <!--<th>Plaza</th>
+                                        <th>Tipo</th>
+                                        <th>Tiempo ocupada</th>
+                                        <th>Veces ocupada</th>-->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- aquí se pone el contenido -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -76,9 +93,33 @@
                             $('#gen').remove();
 
                             $.each(data, function(i, item) {
-                                $('#mesrepo').append("<br /><p><strong>Desde " + item[0].inicio +" al " + item[0].fin +"</strong></p>");
+
+                                var headertable = "<tr><td class='table-light' style='height: 2px' colspan='5'></td></tr>" +
+                                    "<tr><td class='table-primary' colspan='5'><strong>Desde " + item[0].inicio +" al " + item[0].fin +"</strong></td></tr>";
+                                var titulos = "<tr>" +
+                                    "<td> # </td>" +
+                                    "<td> Plaza </td>" +
+                                    "<td> Tipo </td>" +
+                                    "<td> Veces ocupada </td>" +
+                                    "<td> Tiempo ocupada </td>" +
+                                    "</tr>";
+
+                                $("#tbconsolidado tbody").append(headertable);
+                                $("#tbconsolidado tbody").append(titulos);
+
+                                //$('#mesrepo').append("<br /><p><strong>Desde " + item[0].inicio +" al " + item[0].fin +"</strong></p>");
+
                                 $.each(item, function(i, valor) {
-                                    $('#mesrepo').append("<div><i class=\"material-icons iconos\">directions_car</i> La plaza <strong>" + valor.plaza +"</strong> fue usada <strong>" + valor.veces_que_fue_ocupada +"</strong> veces con un tiempo total de <strong>"+ valor.tiempo_fue_ocupada +"</strong> Hora(as).</div>");
+                                    //$('#mesrepo').append("<div><i class=\"material-icons iconos\">directions_car</i> La plaza <strong>" + valor.plaza +"</strong> fue usada <strong>" + valor.veces_que_fue_ocupada +"</strong> veces con un tiempo total de <strong>"+ valor.tiempo_fue_ocupada +"</strong> Hora(as).</div>");
+                                    var markup = "<tr>" +
+                                            "<td><i class='material-icons iconos'>directions_car</i></td>" +
+                                            "<td>" + valor.plaza +"</td>" +
+                                            "<td>" + valor.tipo_plaza + "</td>" +
+                                            "<td>" + valor.tiempo_fue_ocupada +"</td>" +
+                                            "<td>" + valor.veces_que_fue_ocupada +"</td>" +
+                                        "</tr>";
+
+                                    $("#tbconsolidado tbody").append(markup);
                                 });
                             });
 
